@@ -6,18 +6,21 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
-  config.vm.box = "centos/7"
+  config.vm.box = "bento/centos-7.3"
 
   # Port Forwarding
   config.vm.network "forwarded_port", guest: 8085, host: 8085
 
   # Sync folder
-  # config.vm.synced_folder "../data", "/vagrant_data"
+  config.vm.synced_folder ".", "/home/vagrant/bamboo", SharedFoldersEnableSymlinksCreate: false
 
   # Virtual box Config
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 4096
     vb.cpus = 2
   end
+
+  # Provisioning
+  config.vm.provision "shell", path: "setup_env.sh"
 
 end
